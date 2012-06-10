@@ -30,5 +30,5 @@ def SEO(request):
 	return {
 		'seo': Pages.objects.filter(public=True, type='SEO', url=request.path_info),
 		'site': Site.objects.get_current(),
-		'ttt': 'ttt'
+		'url': request.path_info
 	}

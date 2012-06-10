@@ -129,6 +129,12 @@ class Pages(models.Model):
 class MetaTeg(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=255)
 	value = models.CharField(verbose_name=_('Info'), max_length=1000, blank=True)
+	TYPE_CHOICES = (
+		('meta', _('Meta')),
+		('script', _('Script')),
+		('link', _('Link')),
+	)
+	type = models.CharField(verbose_name=_('Type'), max_length=20, choices=TYPE_CHOICES)
 	pages = models.ForeignKey(Pages, verbose_name=_('Page'))
 
 	def __unicode__(self):
@@ -136,25 +142,5 @@ class MetaTeg(models.Model):
 
 	class Meta:
 		ordering = ['name']
-		verbose_name = _('MetaTeg')
-		verbose_name_plural = _('MetaTegs')
-
-
-
-# class Type(models.Model):
-	# name = models.CharField(verbose_name=_('Name'), max_length=128)
-	# slug = models.SlugField(verbose_name=_('Slug'))
-	# info = models.TextField(
-		# verbose_name=_('Info'),
-		# help_text='''<a class="btn" href="#" onclick="tinyMCE.execCommand('mceToggleEditor', false, 'id_info');">''' + _('ON \ OFF') + '</a> ' + _('Info'),
-		# blank=True,
-		# null=True
-	# )
-	
-	# def __unicode__(self):
-		# return self.name
-
-	# class Meta:
-		# ordering = ['name']
-		# verbose_name = _('Type')
-		# verbose_name_plural = _('Types')
+		verbose_name = _('Meta Teg')
+		verbose_name_plural = _('Meta Tegs')
