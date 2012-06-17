@@ -101,7 +101,8 @@ class Pages(models.Model):
 
 	img = models.FileField(verbose_name=_('Image'), upload_to='img/pages', blank=True)
 	
-	site = models.ForeignKey(Site, verbose_name=_('Site'), null=True, blank=True)
+	# site = models.ForeignKey(Site, verbose_name=_('Site'))
+	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	main = models.BooleanField(verbose_name=_('Main'), default=True)
 	created = models.DateTimeField(verbose_name=_('Created'), default=datetime.now())
@@ -122,7 +123,7 @@ class Pages(models.Model):
 		return self.title
 
 	class Meta:
-		unique_together = (('url', 'site'),)
+		# unique_together = (('url', 'site'),)
 		verbose_name = _('Page')
 		verbose_name_plural = _('Pages')
 
