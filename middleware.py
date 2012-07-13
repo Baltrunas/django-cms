@@ -7,6 +7,7 @@ from cms.views import page, category
 
 from django.contrib.sites.models import Site
 
+
 class PageMiddleware(object):
 	def process_response(self, request, response):
 		if response.status_code != 404:
@@ -26,16 +27,11 @@ class PageMiddleware(object):
 				raise
 			return response
 
-def SEO(request):
-	host = request.META.get('HTTP_HOST')
-	if host:
-		try:
-			site = Site.objects.get(domain=host)
-		except Site.DoesNotExist:
-			site = Site.objects.get(pk=1)
-	settings.SITE_THREAD_INFO.SITE_ID = site.pk
-	return {
-		'seo': Pages.objects.filter(public=True, type='SEO', url=request.path_info),
-		'site': site,
-		'url': request.path_info
-	}
+	def process_request(self, request):
+		host = request.META.get('HTTP_HOST')
+		if host:
+			try:
+				site = Site.objects.get(domain=host)
+			except Site.DoesNotExist:
+				site = Site.objects.get(pk=1)
+		request.site = site

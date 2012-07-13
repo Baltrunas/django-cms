@@ -2,7 +2,6 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
-from context import context
 from django.template import RequestContext
 
 from datetime import datetime
@@ -10,6 +9,9 @@ from datetime import datetime
 from cms.models import *
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+# from context import context
+context = {}
 
 def page(request, full_url):
 	page = get_object_or_404(Pages, full_url=full_url)

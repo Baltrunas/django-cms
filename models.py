@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*
 from django.db import models
-from datetime import datetime
 
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
@@ -8,15 +7,14 @@ from django.utils.translation import ugettext as _
 class Category(models.Model):
 	name = models.CharField(verbose_name=_('Name'), max_length=128)
 	slug = models.SlugField(verbose_name=_('Slug'), unique=True)
-	full_url = models.CharField(verbose_name=_('Full URL'), max_length=512, editable=False)
+	url = models.CharField(verbose_name=_('URL'), max_length=512, editable=False)
 	parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True, related_name='childs')
-	
+
 	TYPE_CHOICES = (
 		('article', _('Article')),
 		('blog', _('Blog')),
 		('news', _('News')),
 	)
-
 	type = models.CharField(verbose_name=_('Type'), max_length=10, choices=TYPE_CHOICES)
 	
 	text = models.TextField(
@@ -26,42 +24,32 @@ class Category(models.Model):
 	)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
+	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
+	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	def full_url_puth (self, id):
-		full_url_puth = Category.objects.get(pk=id).slug
-		if not Category.objects.get(pk=id).parent:
-			return full_url_puth
+	def url_puth (self, this):
+		url_puth = this.slug
+		if this.parent:
+			return self.url_puth(this.parent) + '/' + url_puth
 		else:
-			return self.full_url_puth(Category.objects.get(pk=Category.objects.get(pk=id).parent.id).id) + '/' + full_url_puth
+			return url_puth
 
 	def save(self, *args, **kwargs):
-		super(Category, self).save(*args, **kwargs)
-		self.full_url = self.full_url_puth(self.id)
+		self.url = self.url_puth(self)
 		super(Category, self).save(*args, **kwargs)
 
 	def display(self):
-		space = ''
-		url = self.full_url[1:len(self.full_url)-2]
-		for x in url:
-			if x == '/':
-				space += '|___'
-		return '<span style="color: #fff">%s</span>%s' % (space, self.name)
+		return '&nbsp;' * (len(self.url.split('/')) -1) * 8 + self.name
 	display.short_description = _('Menu')
 	display.allow_tags = True
 
-
 	def __unicode__(self):
-		space = ''
-		url = self.full_url[1:len(self.full_url)-2]
-		for x in url:
-			if x == '/':
-				space += '|___'
-		return '%s%s' % (space, self.name)
+		return '&nbsp;' * (len(self.url.split('/')) -1) * 8 + self.name
 	__unicode__.short_description = _('Menu')
 	__unicode__.allow_tags = True
 
 	class Meta:
-		ordering = ['type', 'full_url', 'name']
+		ordering = ['url', 'name']
 		verbose_name = _('Category')
 		verbose_name_plural = _('Categories')
 
@@ -71,7 +59,7 @@ class Pages(models.Model):
 	keywords = models.CharField(verbose_name=_('Keywords'), max_length=512)
 	description = models.CharField(verbose_name=_('Description'), max_length=512)
 
-	url = models.CharField(verbose_name=_('URL'), max_length=200, default='#')
+	url = models.CharField(verbose_name=_('URL'), max_length=256, default='#')
 	full_url = models.CharField(verbose_name=_('Full URL'), max_length=512, editable=False)
 
 	TYPE_CHOICES = (
@@ -79,7 +67,6 @@ class Pages(models.Model):
 		('article', _('Article')),
 		('blog', _('Blog')),
 		('news', _('News')),
-		('seo', _('SEO')),
 	)
 
 	type = models.CharField(verbose_name=_('Type'), max_length=10, choices=TYPE_CHOICES)
@@ -100,15 +87,17 @@ class Pages(models.Model):
 	)
 
 	img = models.FileField(verbose_name=_('Image'), upload_to='img/pages', blank=True)
-	
-	# site = models.ForeignKey(Site, verbose_name=_('Site'))
-	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
-	public = models.BooleanField(verbose_name=_('Public'), default=True)
-	main = models.BooleanField(verbose_name=_('Main'), default=True)
-	created = models.DateTimeField(verbose_name=_('Created'), default=datetime.now())
-	updated = models.DateTimeField(verbose_name=_('Updated'), auto_now = True)
 
+	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
+	
 	views = models.PositiveIntegerField(verbose_name=_('Views'), editable=False, default=0)
+	
+	main = models.BooleanField(verbose_name=_('Main'), default=True)
+	public = models.BooleanField(verbose_name=_('Public'), default=True)
+	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
+	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
+
+	
 	
 	def save(self, *args, **kwargs):
 		super(Pages, self).save(*args, **kwargs)
@@ -121,21 +110,24 @@ class Pages(models.Model):
 	
 	def __unicode__(self):
 		return self.title
-
+	
+	def get_absolute_url(self):
+		return self.full_url
+		
 	class Meta:
-		# unique_together = (('url', 'site'),)
 		verbose_name = _('Page')
 		verbose_name_plural = _('Pages')
 
+
 class MetaTeg(models.Model):
-	name = models.CharField(verbose_name=_('Name'), max_length=255)
-	value = models.CharField(verbose_name=_('Info'), max_length=1000, blank=True)
+	name = models.CharField(verbose_name=_('Name'), max_length=128)
+	value = models.CharField(verbose_name=_('Info'), max_length=2048, blank=True)
 	TYPE_CHOICES = (
 		('meta', _('Meta')),
 		('script', _('Script')),
 		('link', _('Link')),
 	)
-	type = models.CharField(verbose_name=_('Type'), max_length=20, choices=TYPE_CHOICES)
+	type = models.CharField(verbose_name=_('Type'), max_length=64, choices=TYPE_CHOICES)
 	pages = models.ForeignKey(Pages, verbose_name=_('Page'))
 
 	def __unicode__(self):
