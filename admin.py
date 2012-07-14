@@ -11,19 +11,13 @@ class CategoryAdmin(admin.ModelAdmin):
 		js = ('tiny_mce/tiny_mce.js', 'tiny_mce/textareas.js',)
 
 admin.site.register(Category, CategoryAdmin)
-
-
-class MetaTegInline(admin.TabularInline):
-	model = MetaTeg
-	extra = 0
 		
-class PagesAdmin(admin.ModelAdmin):
-	list_display = ('title', 'url', 'full_url', '__unicode__', 'public')
-	search_fields = ('title', 'url', 'full_url', 'public', 'text')
-	list_filter = ('type', 'category')
-	list_editable = ('public',)
-	inlines = [MetaTegInline]
+class PageAdmin(admin.ModelAdmin):
+	list_display = ['title', 'slug', 'url', 'order', 'public', 'main']
+	search_fields = ['title', 'slug', 'url', 'public', 'text']
+	list_filter = ['category']
+	list_editable = ['order', 'public', 'main']
 	class Media:
 		js = ('tiny_mce/tiny_mce.js', 'tiny_mce/textareas.js',)
 
-admin.site.register(Pages, PagesAdmin)
+admin.site.register(Page, PageAdmin)
