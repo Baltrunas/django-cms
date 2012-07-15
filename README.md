@@ -2,11 +2,10 @@
 Pages and categories for django.
 
 # Install
-1) Add 'cms', to INSTALLED_APPS
-2) Add to MIDDLEWARE_CLASSES 'cms.middleware.Redirect','cms.middleware.PageMiddleware',
-3) Add 	url(r'^', include('cms.urls')), to urls.py
-4) manage syncdb
-5) TEMPLATE_CONTEXT_PROCESSORS 	'cms.middleware.SEO',
+* Add 'cms', to INSTALLED_APPS
+* Add to MIDDLEWARE_CLASSES 'cms.middleware.Redirect','cms.middleware.PageMiddleware',
+* Add 	url(r'^', include('cms.urls')), to urls.py
+* manage syncdb
 
 # Futures
 * Templates paganation
