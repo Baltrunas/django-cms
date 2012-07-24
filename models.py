@@ -46,7 +46,7 @@ class Category(models.Model):
 
 	def display(self):
 		return '&nbsp;' * (len(self.url.split('/')) -1) * 6 + self.name
-	display.short_description = _('Menu')
+	display.short_description = _('Category')
 	display.allow_tags = True
 
 	@models.permalink

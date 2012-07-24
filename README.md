@@ -16,6 +16,11 @@ Pages and categories for django.
 * tree to category parent select
 
 # Changelog
+## 2012.07.24
+### Add
+* Filter by sites.
+* cms_render template tag
+
 ## 2012.07.14
 ### Add
 * SafeUnicode to Category.

@@ -22,15 +22,14 @@ def page(request, url):
 	context['header'] = page.header
 	context['keywords'] = page.keywords
 	context['description'] = page.description
-	return render_to_response('article_detail.html', context, context_instance = RequestContext(request))
-	if (page.category.type == 'article'):
-		return render_to_response('article_detail.html', context, context_instance = RequestContext(request))
-	elif (page.category.type == 'blog'):
-		return render_to_response('blog_detail.html', context, context_instance = RequestContext(request))
-	elif (page.category.type == 'news'):
-		return render_to_response('news_detail.html', context, context_instance = RequestContext(request))
-	else:
-		return render_to_response('page_detail.html', context, context_instance = RequestContext(request))
+	if (page.category):
+		if (page.category.type == 'article'):
+			return render_to_response('article_detail.html', context, context_instance = RequestContext(request))
+		elif (page.category.type == 'blog'):
+			return render_to_response('blog_detail.html', context, context_instance = RequestContext(request))
+		elif (page.category.type == 'news'):
+			return render_to_response('news_detail.html', context, context_instance = RequestContext(request))
+	return render_to_response('page_detail.html', context, context_instance = RequestContext(request))
 
 def category(request, url, page=1):
 	category = get_object_or_404(Category, url=url)
