@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
 from django.http import Http404
 from django.conf import settings
-
 from cms.views import page
+
 
 class PageMiddleware(object):
 	def process_response(self, request, response):

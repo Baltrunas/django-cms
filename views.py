@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
-
 from django.template import RequestContext
-
 from datetime import datetime
-
 from cms.models import *
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 context = {}
+
 
 def page(request, url):
 	page = get_object_or_404(Page, url=url)
@@ -24,12 +21,13 @@ def page(request, url):
 	context['description'] = page.description
 	if (page.category):
 		if (page.category.type == 'article'):
-			return render_to_response('article_detail.html', context, context_instance = RequestContext(request))
+			return render_to_response('article_detail.html', context, context_instance=RequestContext(request))
 		elif (page.category.type == 'blog'):
-			return render_to_response('blog_detail.html', context, context_instance = RequestContext(request))
+			return render_to_response('blog_detail.html', context, context_instance=RequestContext(request))
 		elif (page.category.type == 'news'):
-			return render_to_response('news_detail.html', context, context_instance = RequestContext(request))
-	return render_to_response('page_detail.html', context, context_instance = RequestContext(request))
+			return render_to_response('news_detail.html', context, context_instance=RequestContext(request))
+	return render_to_response('page_detail.html', context, context_instance=RequestContext(request))
+
 
 def category(request, url, page=1):
 	category = get_object_or_404(Category, url=url)
@@ -45,6 +43,7 @@ def category(request, url, page=1):
 	elif (category.type == 'news'):
 		return news_archive(request, url)
 
+
 def article_archive(request, url, page=1):
 	article_archive = Page.objects.filter(public=True, category=context['category'].id).order_by('-created_at')
 	paginator = Paginator(article_archive, 4)
@@ -55,7 +54,8 @@ def article_archive(request, url, page=1):
 	except EmptyPage:
 		article_archive = paginator.page(1)
 	context['article_archive'] = article_archive
-	return render_to_response('article_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('article_archive.html', context, context_instance=RequestContext(request))
+
 
 def blog_archive(request, url, page=1):
 	blog_archive = Page.objects.filter(public=True, category=context['category'].id).order_by('-created')
@@ -67,14 +67,15 @@ def blog_archive(request, url, page=1):
 	except EmptyPage:
 		blog_archive = paginator.page(1)
 	context['blog_archive'] = blog_archive
-	return render_to_response('blog_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('blog_archive.html', context, context_instance=RequestContext(request))
+
 
 def news_archive(request, url):
 	year = datetime.now().year
 	category = get_object_or_404(Category, url=url)
 	context['news_year'] = year
 	context['category'] = category
-	
+
 	context['news_archive'] = Page.objects.filter(
 		public=True,
 		category=category.id
@@ -90,13 +91,14 @@ def news_archive(request, url):
 	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('news_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('news_archive.html', context, context_instance=RequestContext(request))
+
 
 def news_year_archive(request, url, year):
 	category = get_object_or_404(Category, url=url)
 	context['news_year'] = int(year)
 	context['category'] = category
-	
+
 	context['news_archive'] = Page.objects.filter(
 		public=True,
 		category=category.id,
@@ -112,14 +114,15 @@ def news_year_archive(request, url, year):
 	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('news_year_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('news_year_archive.html', context, context_instance=RequestContext(request))
+
 
 def news_month_archive(request, url, year, month):
 	category = get_object_or_404(Category, url=url)
 	context['news_year'] = int(year)
 	context['news_month'] = int(month)
 	context['category'] = category
-	
+
 	context['news_archive'] = Page.objects.filter(
 		public=True,
 		category=category.id,
@@ -142,7 +145,8 @@ def news_month_archive(request, url, year, month):
 	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('news_month_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('news_month_archive.html', context, context_instance=RequestContext(request))
+
 
 def news_day_archive(request, url, year, month, day):
 	category = get_object_or_404(Category, url=url)
@@ -150,7 +154,7 @@ def news_day_archive(request, url, year, month, day):
 	context['news_month'] = int(month)
 	context['news_day'] = int(day)
 	context['category'] = category
-	
+
 	context['news_archive'] = Page.objects.filter(
 		public=True,
 		category=category.id,
@@ -181,7 +185,8 @@ def news_day_archive(request, url, year, month, day):
 	context['header'] = category.name
 	context['keywords'] = category.name
 	context['description'] = category.name
-	return render_to_response('news_day_archive.html', context, context_instance = RequestContext(request))
+	return render_to_response('news_day_archive.html', context, context_instance=RequestContext(request))
+
 
 def news_detail(request, url, id):
 	category = get_object_or_404(Category, url=url)
@@ -191,4 +196,4 @@ def news_detail(request, url, id):
 	context['header'] = page.header
 	context['keywords'] = page.keywords
 	context['description'] = page.description
-	return render_to_response('news_detail.html', context, context_instance = RequestContext(request))
+	return render_to_response('news_detail.html', context, context_instance=RequestContext(request))

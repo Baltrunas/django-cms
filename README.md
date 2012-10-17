@@ -18,6 +18,7 @@ Pages and categories for django.
 # Changelog
 ## 2012.10.17
 ### Fix
+* PEP-8
 * Remove tiny_mce
 
 
