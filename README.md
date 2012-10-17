@@ -16,6 +16,11 @@ Pages and categories for django.
 * tree to category parent select
 
 # Changelog
+## 2012.10.17
+### Fix
+* Remove tiny_mce
+
+
 ## 2012.07.24
 ### Add
 * Filter by sites.
