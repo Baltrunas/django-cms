@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 {% block content %}
 	<h1>{% if seo.header %}{{ seo.header }}{% else %}<b>&sect;</b> {{ header }}{% endif %}</h1>
 	{{ page.text|safe }}

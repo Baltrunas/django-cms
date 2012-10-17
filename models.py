@@ -92,6 +92,9 @@ class Page(models.Model):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
+	def view(self):
+		self.views += 1
+
 	def save(self, *args, **kwargs):
 		if self.category and self.category.type in ['blog', 'article']:
 			self.url = '/' + self.category.url + '/' + self.slug + '/'
