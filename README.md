@@ -11,6 +11,8 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 
 
 # Futures
+* Templates for admin
+* Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
 * Templates paganation
 * New views
 * New templates

@@ -11,8 +11,8 @@ context = {}
 
 def page(request, url):
 	page = get_object_or_404(Page, url=url)
-	page.views += 1
-	page.save()
+	page.view()
+	# page.save()
 	context['url'] = url
 	context['page'] = page
 	context['title'] = page.title
@@ -21,12 +21,12 @@ def page(request, url):
 	context['description'] = page.description
 	if (page.category):
 		if (page.category.type == 'article'):
-			return render_to_response('article_detail.html', context, context_instance=RequestContext(request))
+			return render_to_response('cms/article_detail.html', context, context_instance=RequestContext(request))
 		elif (page.category.type == 'blog'):
-			return render_to_response('blog_detail.html', context, context_instance=RequestContext(request))
+			return render_to_response('cms/blog_detail.html', context, context_instance=RequestContext(request))
 		elif (page.category.type == 'news'):
-			return render_to_response('news_detail.html', context, context_instance=RequestContext(request))
-	return render_to_response('page_detail.html', context, context_instance=RequestContext(request))
+			return render_to_response('cms/news_detail.html', context, context_instance=RequestContext(request))
+	return render_to_response('cms/page_detail.html', context, context_instance=RequestContext(request))
 
 
 def category(request, url, page=1):

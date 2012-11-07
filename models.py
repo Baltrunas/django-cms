@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*
 from django.db import models
-# import the settings file
 from django.conf import settings
-
 from django.utils.safestring import SafeUnicode
-
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
@@ -110,6 +107,7 @@ class Page(BaseModel):
 
 	def view(self):
 		self.views += 1
+		self.save()
 
 	def save(self, *args, **kwargs):
 		if self.category and self.category.type in ['blog', 'article']:
