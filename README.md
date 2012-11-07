@@ -3,9 +3,12 @@ Pages and categories for django.
 
 # Install
 * Add to INSTALLED_APPS 'cms', 
-* Add to MIDDLEWARE_CLASSES 'cms.middleware.PageMiddleware',
-* Add to urls.py url(r'^', include('cms.urls')),
+* Add to end of MIDDLEWARE_CLASSES 'cms.middleware.PageMiddleware',
+* Add to end of urls.py url(r'^', include('cms.urls')),
 * manage.py syncdb
+## Notise
+If you want to use multilanguage you must instal hvad, define LANGUAGES in settings and use 'middleware.SwitchLocaleMiddleware', to change languages.
+
 
 # Futures
 * Templates paganation
@@ -16,6 +19,10 @@ Pages and categories for django.
 * tree to category parent select
 
 # Changelog
+## 2012.11.07
+### Add
+* Multilanguage
+
 ## 2012.10.17
 ### Fix
 * PEP-8

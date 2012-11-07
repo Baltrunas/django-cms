@@ -120,9 +120,9 @@ class Page(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return self.safe_translation_getter('title', 'MyMode: %s' % self.pk) + '!!!?'
+			return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
 		else:
-			return self.title + '!!!'
+			return self.title
 
 	def get_absolute_url(self):
 		return self.url
