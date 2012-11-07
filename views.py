@@ -3,7 +3,8 @@ from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from datetime import datetime
-from cms.models import *
+from cms.models import Page
+from cms.models import Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 context = {}
@@ -12,21 +13,18 @@ context = {}
 def page(request, url):
 	page = get_object_or_404(Page, url=url)
 	page.view()
-	# page.save()
-	context['url'] = url
 	context['page'] = page
 	context['title'] = page.title
 	context['header'] = page.header
 	context['keywords'] = page.keywords
 	context['description'] = page.description
 	if (page.category):
-		if (page.category.type == 'article'):
-			return render_to_response('cms/article_detail.html', context, context_instance=RequestContext(request))
-		elif (page.category.type == 'blog'):
-			return render_to_response('cms/blog_detail.html', context, context_instance=RequestContext(request))
-		elif (page.category.type == 'news'):
-			return render_to_response('cms/news_detail.html', context, context_instance=RequestContext(request))
-	return render_to_response('cms/page_detail.html', context, context_instance=RequestContext(request))
+		try:
+			return render_to_response('cms/' + page.category.type + '_detail.html', context, context_instance=RequestContext(request))
+		except:
+			return render_to_response('cms/page_detail.html', context, context_instance=RequestContext(request))
+	else:
+		return render_to_response('cms/page_detail.html', context, context_instance=RequestContext(request))
 
 
 def category(request, url, page=1):
