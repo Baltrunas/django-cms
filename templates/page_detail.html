@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
+{% load cms_render %}
 {% block content %}
 	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
-	{% load cms_render %}
 	{% cms_render page.text %}
 {% endblock %}
