@@ -26,7 +26,7 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 * Multilanguage
 ### Fix
 * view()
-
+* views::page() Optimization
 
 ## 2012.10.17
 ### Fix

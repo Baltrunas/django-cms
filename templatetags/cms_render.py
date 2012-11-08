@@ -18,7 +18,9 @@ class RenderNode(template.Node):
 
 @register.tag(name='cms_render')
 def cms_render(parser, token):
-	" Example: {% cms_render flatpage.content %}"
+	"""
+	Example: {% cms_render flatpage.content %}
+	"""
 	content = token.split_contents()[-1]
 	return RenderNode(content)
 cms_render.is_safe = True
