@@ -24,7 +24,9 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 ## 2012.11.07
 ### Add
 * Templates for multilanguage
+* DE Locale
 ### Fix
+* views template puth
 * README.md
 
 ## 2012.11.07
