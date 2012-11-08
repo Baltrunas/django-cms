@@ -23,6 +23,12 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 # Changelog
 ## 2012.11.07
 ### Add
+* Templates for multilanguage
+### Fix
+* README.md
+
+## 2012.11.07
+### Add
 * Multilanguage
 ### Fix
 * view()
