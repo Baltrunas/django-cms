@@ -56,8 +56,8 @@ def article_archive(request, url, page=1):
 
 
 def blog_archive(request, url, page=1):
-	blog_archive = Page.objects.filter(public=True, category=context['category'].id).order_by('-created')
-	paginator = Paginator(blog_archive, 1)
+	blog_archive = Page.objects.filter(public=True, category=context['category'].id).order_by('-created_at')
+	paginator = Paginator(blog_archive, 10)
 	try:
 		blog_archive = paginator.page(page)
 	except PageNotAnInteger:

@@ -55,7 +55,7 @@ class Category(BaseModel):
 			page.save()
 
 	def display(self):
-		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk)
+		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name)
 	display.short_description = _('Category')
 	display.allow_tags = True
 
@@ -65,7 +65,7 @@ class Category(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk))
+			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name))
 		else:
 			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
 
