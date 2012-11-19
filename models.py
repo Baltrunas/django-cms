@@ -65,7 +65,10 @@ class Category(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name))
+			try:
+				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name))
+			except:
+				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk))
 		else:
 			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
 
@@ -118,7 +121,10 @@ class Page(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
+			try:
+				return self.safe_translation_getter('title', 'MyMode: %s' % self.name)
+			except:
+				return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
 		else:
 			return self.title
 
