@@ -2,7 +2,7 @@
 Pages and categories for django.
 
 # Install
-* Add to INSTALLED_APPS 'cms', 
+* Add to INSTALLED_APPS 'cms',
 * Add to end of MIDDLEWARE_CLASSES 'cms.middleware.PageMiddleware',
 * Add to end of urls.py url(r'^', include('cms.urls')),
 * manage.py syncdb
