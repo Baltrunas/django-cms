@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*
 from django.db import models
-# import the settings file
 from django.conf import settings
-
 from django.utils.safestring import SafeUnicode
-
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
@@ -58,7 +55,7 @@ class Category(BaseModel):
 			page.save()
 
 	def display(self):
-		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk)
+		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name)
 	display.short_description = _('Category')
 	display.allow_tags = True
 
@@ -68,7 +65,10 @@ class Category(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk))
+			try:
+				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name))
+			except:
+				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk))
 		else:
 			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
 
@@ -110,6 +110,7 @@ class Page(BaseModel):
 
 	def view(self):
 		self.views += 1
+		self.save()
 
 	def save(self, *args, **kwargs):
 		if self.category and self.category.type in ['blog', 'article']:
@@ -120,7 +121,10 @@ class Page(BaseModel):
 
 	def __unicode__(self):
 		if multilingual:
-			return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
+			try:
+				return self.safe_translation_getter('title', 'MyMode: %s' % self.name)
+			except:
+				return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
 		else:
 			return self.title
 

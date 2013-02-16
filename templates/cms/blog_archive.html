@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
-	<div class='b-news-list'>
+
+	<div class='blog-description'>
+		{{ category.description|safe }}
+	</div>
+
+	<div class='blog-list'>
 	{% for blog in blog_archive %}
-		<div class='b-news-item'>
-			<a class='b-news-item__title' href='{{ blog.full_url }}'>{{ blog.header }}</a>
+		<div class='b-blog-item'>
+			<a class='b-blog-item__title' href='{{ blog.get_absolute_url }}'>{{ blog.header }}</a>
 			{{ blog.intro_text|safe }}
 		</div>
 	{% endfor %}
