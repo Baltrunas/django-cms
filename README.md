@@ -11,6 +11,8 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 
 
 # Futures
+* Templates for admin
+* Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
 * Templates paganation
 * New views
 * New templates
@@ -21,7 +23,18 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 # Changelog
 ## 2012.11.07
 ### Add
+* Templates for multilanguage
+* DE Locale
+### Fix
+* views template puth
+* README.md
+
+## 2012.11.07
+### Add
 * Multilanguage
+### Fix
+* view()
+* views::page() Optimization
 
 ## 2012.10.17
 ### Fix
