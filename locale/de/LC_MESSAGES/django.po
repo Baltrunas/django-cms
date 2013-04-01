@@ -28,7 +28,7 @@ msgstr "Beschreibung"
 
 #: models.py:28 models.py:99
 msgid "Slug"
-msgstr ""
+msgstr "Webserverebene"
 
 #: models.py:29 models.py:100
 msgid "URL"
@@ -40,7 +40,7 @@ msgstr "übergeordnete Kategorie"
 
 #: models.py:33
 msgid "Article"
-msgstr ""
+msgstr "Artikel"
 
 #: models.py:34
 msgid "Blog"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: models.py:39 models.py:107
 msgid "Public"
-msgstr ""
+msgstr "Veröffentlichen"
 
 #: models.py:40 models.py:108
 msgid "Created At"
@@ -88,11 +88,11 @@ msgstr "Keywords"
 
 #: models.py:88 models.py:96
 msgid "Intro Text"
-msgstr ""
+msgstr "Introtext"
 
 #: models.py:89 models.py:97
 msgid "Text"
-msgstr ""
+msgstr "Haupttext"
 
 #: models.py:102
 msgid "Order"
