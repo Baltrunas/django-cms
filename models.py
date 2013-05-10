@@ -108,6 +108,18 @@ class Page(BaseModel):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
+	def get_next(self):
+		next = Page.objects.filter(id__gt=self.id, category=self.category, public=True)
+		if next:
+			return next[0]
+		return False
+
+	def get_prev(self):
+		prev = Page.objects.filter(id__lt=self.id, category=self.category, public=True)
+		if prev:
+			return prev[0]
+		return False
+
 	def view(self):
 		self.views += 1
 		self.save()
