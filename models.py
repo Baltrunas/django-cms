@@ -36,6 +36,10 @@ class Category(BaseModel):
 	)
 	type = models.CharField(verbose_name=_('Type'), max_length=16, choices=TYPE_CHOICES)
 
+	sites = models.ManyToManyField(Site, related_name='site_cms_categories', verbose_name=_('Sites'), null=True, blank=True)
+
+	per_page = models.IntegerField(verbose_name=_('Items per page'), help_text=_('The maximum number of items to include on a page'), default=10)
+
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
@@ -147,3 +151,20 @@ class Page(BaseModel):
 		ordering = ['url']
 		verbose_name = _('Page')
 		verbose_name_plural = _('Pages')
+
+
+# class Template(BaseModel):
+# 	name = models.CharField(verbose_name=_('Name'), max_length=256)
+# 	html = models.TextField(verbose_name=_('HTML'), blank=True, null=True)
+# 	is_file = models.BooleanField(verbose_name=_('Main'))
+# 	# file_upload
+# 	# file_puth
+
+# 	public = models.BooleanField(verbose_name=_('Public'), default=True)
+# 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
+# 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
+
+# 	class Meta:
+# 		ordering = ['url']
+# 		verbose_name = _('Template')
+# 		verbose_name_plural = _('Templates')

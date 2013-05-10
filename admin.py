@@ -13,10 +13,10 @@ else:
 
 
 class CategoryAdmin(BaseAdminModel):
-	list_display = ('display', 'slug', 'url', 'type', 'public')
-	search_fields = ('display', 'slug', 'url', 'type', 'public')
-	list_filter = ('type', 'public')
-	list_editable = ('public',)
+	list_display = ['display', 'slug', 'url', 'type', 'public']
+	search_fields = ['display', 'slug', 'url', 'type', 'public']
+	list_filter = ['type', 'public', 'sites']
+	list_editable = ['public']
 
 admin.site.register(Category, CategoryAdmin)
 
@@ -24,7 +24,7 @@ admin.site.register(Category, CategoryAdmin)
 class PageAdmin(BaseAdminModel):
 	list_display = ['__unicode__', 'slug', 'url', 'order', 'public', 'main']
 	search_fields = ['title', 'slug', 'url', 'public', 'text']
-	list_filter = ['category', 'sites__name']
+	list_filter = ['public', 'main', 'category', 'sites']
 	list_editable = ['order', 'public', 'main']
 
 admin.site.register(Page, PageAdmin)
