@@ -21,6 +21,8 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 * News
 	/news/some-thing-heppen/
 	/news/page-1/
+		http://ux.stackexchange.com/questions/16045/pagination-urls
+		http://www.ayima.com/seo-knowledge/conquering-pagination-guide.html
 	/news/2013/
 	/news/2013/01/
 	/news/2013/01/23/
