@@ -12,13 +12,25 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 
 # Futures
 * Templates for admin
+* Change translation module
 * Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
 * Templates paganation
 * New views
 * New templates
+* Add template choices and templates model
+* News
+	/news/some-thing-heppen/
+	/news/page-1/
+	/news/2013/
+	/news/2013/01/
+	/news/2013/01/23/
+* Tree to category parent select
 
-# I think about
-* tree to category parent select
+# Changelog
+## 2013.06.13
+* Optimization views.py
+* Optimization templates
+* New news templates
 
 # Changelog
 ## 2012.11.07

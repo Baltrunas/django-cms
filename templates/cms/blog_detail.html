@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
+
+{% load cms_render %}
+
+
+
 {% block content %}
-<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
-	{{ page.intro_text|safe }}
+	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	{% cms_render page.intro_text %}
 	{% if page.img %}<img src='{{ page.img.url }}' width='620'><br>{% endif %}
 	<hr>
-	{{ page.text|safe }}
+	{% cms_render page.text %}
 {% endblock %}

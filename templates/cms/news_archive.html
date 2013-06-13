@@ -1,38 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	<h1 class='b-news-category__name'>
+		{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}
+	</h1>
 
-	{% regroup news_archive by created_at.year as year_list %}
-	
-	<div class='b-news_year_list'>
-		{% for year in year_list %}
-			<div class='b-news_year'>
-				{% if year.grouper == news_year %}
-					<b>{{ year.grouper }}</b>
-					{% regroup news_year_archive by created_at.month as month_list %}
-					{% for month in month_list %}
-						<br>
-						<a href='{{category.url}}/{{ news_year }}/{{month.list.0.created_at|date:"m"|lower}}/'>
-							{{month.list.0.created_at|date:"M"|lower}}
-						</a>
-					{% endfor %}
-					
-				{% elif forloop.first %}
-					<a href='{{category.url}}/'>{{ year.grouper }}</a>
-				{% else %}
-					<a href='{{category.url}}/{{ year.grouper }}/'>{{ year.grouper }}</a>
-				{% endif %}
-			</div>
-		{% endfor %}
+	<div class='b-news-category__description'>
+		{{ category.description|safe }}
 	</div>
 
-	<div id='news'>
-		{% for news in news_year_archive %}
-			<article>
-				<time pubdate datetime='{{ news.created_at|date:"d-m-Y" }}'>{{ news.created_at|date:"j E Y"|lower }}</time>
-				<p>{{ news.title|safe }}</p><br>
-			</article>
-		{% endfor %}
+	<div class='b-news-list'>
+	{% for item in pages_list %}
+		<div class='b-news-item'>
+			<time class='b-news-item__date'>{{ item.created_at }}</time>
+			<a class='b-news-item__title' href='{{ item.get_absolute_url }}'>{{ item.header }}</a>
+			<div class='b-news-item__description'>{{ item.intro_text|safe }}</div>
+		</div>
+	{% endfor %}
 	</div>
+
+	{% include 'cms/__blocks/paginator.html' %}
 {% endblock %}

@@ -129,8 +129,8 @@ class Page(BaseModel):
 		self.save()
 
 	def save(self, *args, **kwargs):
-		if self.category and self.category.type in ['blog', 'article']:
-			self.url = '/' + self.category.url + '/' + self.slug + '/'
+		if self.category:
+			self.url = '/%s/%s/' % (self.category.url, self.slug)
 		else:
 			self.url = '/' + self.slug
 		super(Page, self).save(*args, **kwargs)

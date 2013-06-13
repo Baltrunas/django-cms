@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+
 {% load i18n %}
 {% load cms_render %}
+
 {% block content %}
-	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	<h1 class='b-page__title'>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
 	{% cms_render page.text %}
-	<h5>{% trans "Views" %}: {{page.views}}</h5>
+	<span class='b-page__views'>{% trans "Views" %}: {{page.views}}</span>
 {% endblock %}
