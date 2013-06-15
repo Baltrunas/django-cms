@@ -138,7 +138,7 @@ class Page(BaseModel):
 	def __unicode__(self):
 		if multilingual:
 			try:
-				return self.safe_translation_getter('title', 'MyMode: %s' % self.name)
+				return self.title
 			except:
 				return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
 		else:
