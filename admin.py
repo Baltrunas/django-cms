@@ -1,30 +1,44 @@
 # -*- coding: utf-8 -*
-from django.conf import settings
 from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
+
 from cms.models import Category
 from cms.models import Page
 
 
-if 'hvad' in settings.INSTALLED_APPS and hasattr(settings, 'LANGUAGES'):
-	from hvad.admin import TranslatableAdmin
-	BaseAdminModel = TranslatableAdmin
-else:
-	BaseAdminModel = admin.ModelAdmin
-
-
-class CategoryAdmin(BaseAdminModel):
+class CategoryAdmin(TranslationAdmin):
 	list_display = ['display', 'slug', 'url', 'type', 'public']
 	search_fields = ['display', 'slug', 'url', 'type', 'public']
 	list_filter = ['type', 'public', 'sites']
 	list_editable = ['public']
 
+	class Media:
+		js = (
+			'//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+			'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+			'modeltranslation/js/tabbed_translation_fields.js',
+		)
+		css = {
+			'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+		}
+
 admin.site.register(Category, CategoryAdmin)
 
 
-class PageAdmin(BaseAdminModel):
+class PageAdmin(TranslationAdmin):
 	list_display = ['__unicode__', 'slug', 'url', 'order', 'public', 'main']
 	search_fields = ['title', 'slug', 'url', 'public', 'text']
 	list_filter = ['public', 'main', 'category', 'sites']
 	list_editable = ['order', 'public', 'main']
+
+	class Media:
+		js = (
+			'//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+			'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+			'modeltranslation/js/tabbed_translation_fields.js',
+		)
+		css = {
+			'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+		}
 
 admin.site.register(Page, PageAdmin)

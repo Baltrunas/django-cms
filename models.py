@@ -1,29 +1,13 @@
 # -*- coding: utf-8 -*
 from django.db import models
-from django.conf import settings
 from django.utils.safestring import SafeUnicode
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
 
-if 'hvad' in settings.INSTALLED_APPS and hasattr(settings, 'LANGUAGES'):
-	from hvad.models import TranslatableModel, TranslatedFields
-	BaseModel = TranslatableModel
-	multilingual = True
-else:
-	BaseModel = models.Model
-	multilingual = False
-
-
-class Category(BaseModel):
-	if multilingual:
-		translations = TranslatedFields(
-			name=models.CharField(verbose_name=_('Name'), max_length=255),
-			description=models.TextField(verbose_name=_('Description'), blank=True)
-		)
-	else:
-		name = models.CharField(verbose_name=_('Name'), max_length=255)
-		description = models.TextField(verbose_name=_('Description'), blank=True)
+class Category(models.Model):
+	name = models.CharField(verbose_name=_('Name'), max_length=255)
+	description = models.TextField(verbose_name=_('Description'), blank=True)
 
 	slug = models.SlugField(verbose_name=_('Slug'), unique=True)
 	url = models.CharField(verbose_name=_('URL'), max_length=512, editable=False)
@@ -50,6 +34,20 @@ class Category(BaseModel):
 		else:
 			return this.slug
 
+	def sub_cat(self):
+		sub = Category.objects.filter(public=True, parent=self.id)
+		subs = []
+
+		for cat in sub:
+			for cat_id in cat.all_sub():
+				subs.append(cat_id)
+		return subs
+
+	def all_sub(self):
+		subs_id = [self.id]
+		subs_id += self.sub_cat()
+		return subs_id
+
 	def save(self, *args, **kwargs):
 		self.url = self.url_puth(self)
 		super(Category, self).save(*args, **kwargs)
@@ -59,7 +57,8 @@ class Category(BaseModel):
 			page.save()
 
 	def display(self):
-		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name)
+		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name
+
 	display.short_description = _('Category')
 	display.allow_tags = True
 
@@ -68,13 +67,7 @@ class Category(BaseModel):
 		return ('cms_category', (), {'url': self.url})
 
 	def __unicode__(self):
-		if multilingual:
-			try:
-				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.name))
-			except:
-				return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.safe_translation_getter('name', 'MyMode: %s' % self.pk))
-		else:
-			return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
+		return SafeUnicode('&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name)
 
 	class Meta:
 		ordering = ['url']
@@ -82,23 +75,13 @@ class Category(BaseModel):
 		verbose_name_plural = _('Categories')
 
 
-class Page(BaseModel):
-	if multilingual:
-		translations = TranslatedFields(
-			title=models.CharField(verbose_name=_('Title'), max_length=256),
-			header=models.CharField(verbose_name=_('Header'), max_length=256),
-			keywords=models.CharField(verbose_name=_('Keywords'), max_length=1024, blank=True, null=True),
-			description=models.CharField(verbose_name=_('Description'), max_length=2048, blank=True, null=True),
-			intro_text=models.TextField(verbose_name=_('Intro Text'), blank=True, null=True),
-			text=models.TextField(verbose_name=_('Text'), blank=True, null=True)
-		)
-	else:
-		title = models.CharField(verbose_name=_('Title'), max_length=256)
-		header = models.CharField(verbose_name=_('Header'), max_length=256)
-		keywords = models.CharField(verbose_name=_('Keywords'), max_length=1024, blank=True, null=True)
-		description = models.CharField(verbose_name=_('Description'), max_length=2048, blank=True, null=True)
-		intro_text = models.TextField(verbose_name=_('Intro Text'), blank=True, null=True)
-		text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
+class Page(models.Model):
+	title = models.CharField(verbose_name=_('Title'), max_length=256)
+	header = models.CharField(verbose_name=_('Header'), max_length=256)
+	keywords = models.CharField(verbose_name=_('Keywords'), max_length=1024, blank=True, null=True)
+	description = models.CharField(verbose_name=_('Description'), max_length=2048, blank=True, null=True)
+	intro_text = models.TextField(verbose_name=_('Intro Text'), blank=True, null=True)
+	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
 
 	slug = models.CharField(verbose_name=_('Slug'), max_length=256, default='#')
 	url = models.CharField(verbose_name=_('URL'), max_length=1024, editable=False)
@@ -136,13 +119,7 @@ class Page(BaseModel):
 		super(Page, self).save(*args, **kwargs)
 
 	def __unicode__(self):
-		if multilingual:
-			try:
-				return self.title
-			except:
-				return self.safe_translation_getter('title', 'MyMode: %s' % self.pk)
-		else:
-			return self.title
+		return self.title
 
 	def get_absolute_url(self):
 		return self.url

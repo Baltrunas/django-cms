@@ -38,7 +38,8 @@ def category(request, url, page=1):
 	context['description'] = category.name
 
 	host = request.META.get('HTTP_HOST')
-	pages_list = Page.objects.filter(public=True, category=context['category'].id, sites__domain__in=[host]).order_by('-created_at')
+	# pages_list = Page.objects.filter(public=True, category=context['category'].id, sites__domain__in=[host]).order_by('-created_at')
+	pages_list = Page.objects.filter(public=True, category__in=context['category'].all_sub(), sites__domain__in=[host]).order_by('-created_at')
 	paginator = Paginator(pages_list, context['category'].per_page)
 
 	try:
