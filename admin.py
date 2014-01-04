@@ -7,9 +7,9 @@ from cms.models import Page
 
 
 class CategoryAdmin(TranslationAdmin):
-	list_display = ['display', 'slug', 'url', 'type', 'public']
-	search_fields = ['display', 'slug', 'url', 'type', 'public']
-	list_filter = ['type', 'public', 'sites']
+	list_display = ['__unicode__', 'slug', 'url', 'template', 'public']
+	search_fields = ['__unicode__', 'slug', 'url', 'template', 'public']
+	list_filter = ['template', 'public', 'sites']
 	list_editable = ['public']
 
 	class Media:

@@ -12,9 +12,6 @@ def page(request, url):
 	context = {}
 	host = request.META.get('HTTP_HOST')
 
-	# /versicherungsblog/gesundheitswesen/krankenkasse-versicherungsmodell-modellcheck/
-	# /versicherungsblog/gesundheitswesen/krankenkasse-versicherungsmodell-modellcheck
-
 	page = get_object_or_404(Page, url=url, sites__domain__in=[host])
 	page.view()
 	context['page'] = page
@@ -24,7 +21,7 @@ def page(request, url):
 	context['description'] = page.description
 
 	if page.category:
-		template = 'cms/' + page.category.type + '_detail.html'
+		template = 'cms/' + page.category.template + '_detail.html'
 	else:
 		template = 'cms/page_detail.html'
 
@@ -43,7 +40,7 @@ def category(request, url, page=1):
 
 	host = request.META.get('HTTP_HOST')
 	# pages_list = Page.objects.filter(public=True, category=context['category'].id, sites__domain__in=[host]).order_by('-created_at')
-	pages_list = Page.objects.filter(public=True, category__in=context['category'].all_sub(), sites__domain__in=[host]).order_by('-created_at')
+	pages_list = Page.objects.filter(public=True, category__in=context['category'].get_all(), sites__domain__in=[host]).order_by('-created_at')
 	paginator = Paginator(pages_list, context['category'].per_page)
 
 	try:
@@ -53,6 +50,6 @@ def category(request, url, page=1):
 
 	context['pages_list'] = pages_list
 
-	template = 'cms/%s_archive.html' % category.type
+	template = 'cms/%s_archive.html' % category.template
 
 	return render_to_response(template, context, context_instance=RequestContext(request))

@@ -2,23 +2,20 @@
 Pages and categories for django.
 
 # Install
-* Add to INSTALLED_APPS 'cms',
-* Add to end of MIDDLEWARE_CLASSES 'cms.middleware.PageMiddleware',
-* Add to end of urls.py url(r'^', include('cms.urls')),
+* Add ```'cms',``` to ```INSTALLED_APPS ```
+* Add ```'cms.middleware.PageMiddleware',``` to end of ```MIDDLEWARE_CLASSES```
+* Add ```url(r'^', include('cms.urls')),``` to end of urls.py 
 * manage.py syncdb
 ## Notise
-If you want to use multilanguage you must instal hvad, define LANGUAGES in settings and use 'middleware.SwitchLocaleMiddleware', to change languages.
+If you want to use multilanguage you must instal ```django-modeltranslation```, define LANGUAGES in settings and use 'middleware.SwitchLocaleMiddleware', to change languages.
 
 
-# Futures
-
-* Templates for admin
-* Templates paganation
-* Add template choices and templates model
+# To Do
 * New templates
+* Custom templates
 
 * New views
-* News
+* New **news** urls
 	/news/some-thing-heppen/
 	/news/page-1/
 		http://ux.stackexchange.com/questions/16045/pagination-urls
@@ -26,15 +23,14 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 	/news/2013/
 	/news/2013/01/
 	/news/2013/01/23/
-* Tree to category parent select
+* Optimize category models tree
 
-# Changelog
-
+# Change Log
 ## 2014.01.04
 ### Fix
+* Change ```type``` to ```template```
 * Change translation module
 * Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
-
 
 ## 2013.06.13
 ### Fix
@@ -42,7 +38,6 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 * Optimization templates
 * New news templates
 
-# Changelog
 ## 2012.11.07
 ### Add
 * Templates for multilanguage
@@ -62,7 +57,6 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 ### Fix
 * PEP-8
 * Remove tiny_mce
-
 
 ## 2012.07.24
 ### Add

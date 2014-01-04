@@ -14,12 +14,12 @@ class Category(models.Model):
 	url = models.CharField(verbose_name=_('URL'), max_length=512, editable=False)
 	parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True, related_name='childs')
 
-	TYPE_CHOICES = (
+	TEMPLATE_CHOICES = (
 		('article', _('Article')),
 		('blog', _('Blog')),
 		('news', _('News')),
 	)
-	type = models.CharField(verbose_name=_('Type'), max_length=16, choices=TYPE_CHOICES)
+	template = models.CharField(verbose_name=_('Template'), max_length=32, choices=TEMPLATE_CHOICES)
 
 	sites = models.ManyToManyField(Site, related_name='site_cms_categories', verbose_name=_('Sites'), null=True, blank=True)
 
@@ -35,19 +35,17 @@ class Category(models.Model):
 		else:
 			return this.slug
 
-	def sub_cat(self):
-		sub = Category.objects.filter(public=True, parent=self.id)
-		subs = []
+	def get_childs(self):
+		childs = []
 
-		for cat in sub:
-			for cat_id in cat.all_sub():
-				subs.append(cat_id)
-		return subs
+		for category in Category.objects.filter(public=True, parent=self.id):
+			for category_id in category.get_all():
+				childs.append(category_id)
 
-	def all_sub(self):
-		subs_id = [self.id]
-		subs_id += self.sub_cat()
-		return subs_id
+		return childs
+
+	def get_all(self):
+		return [self.id] + self.get_childs()
 
 	def save(self, *args, **kwargs):
 		self.url = self.url_puth(self)
@@ -56,12 +54,6 @@ class Category(models.Model):
 			child.save()
 		for page in self.pages.all():
 			page.save()
-
-	def display(self):
-		return '&nbsp;' * (len(self.url.split('/')) - 1) * 6 + self.name
-
-	display.short_description = _('Category')
-	display.allow_tags = True
 
 	@models.permalink
 	def get_absolute_url(self):
