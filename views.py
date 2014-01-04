@@ -11,6 +11,10 @@ from cms.models import Category
 def page(request, url):
 	context = {}
 	host = request.META.get('HTTP_HOST')
+
+	# /versicherungsblog/gesundheitswesen/krankenkasse-versicherungsmodell-modellcheck/
+	# /versicherungsblog/gesundheitswesen/krankenkasse-versicherungsmodell-modellcheck
+
 	page = get_object_or_404(Page, url=url, sites__domain__in=[host])
 	page.view()
 	context['page'] = page

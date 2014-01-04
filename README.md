@@ -11,8 +11,6 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 
 
 # Futures
-* Change translation module
-* Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
 
 * Templates for admin
 * Templates paganation
@@ -31,7 +29,15 @@ If you want to use multilanguage you must instal hvad, define LANGUAGES in setti
 * Tree to category parent select
 
 # Changelog
+
+## 2014.01.04
+### Fix
+* Change translation module
+* Add slash checking (https://docs.djangoproject.com/en/dev/ref/settings/#append-slash)
+
+
 ## 2013.06.13
+### Fix
 * Optimization views.py
 * Optimization templates
 * New news templates

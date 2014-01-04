@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*
 from django.db import models
-from django.utils.safestring import SafeUnicode
+from django.conf import settings
 from django.contrib.sites.models import Site
+from django.utils.safestring import SafeUnicode
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -112,10 +113,16 @@ class Page(models.Model):
 		self.save()
 
 	def save(self, *args, **kwargs):
+		self.url = '/'
+
 		if self.category:
-			self.url = '/%s/%s/' % (self.category.url, self.slug)
-		else:
-			self.url = '/' + self.slug
+			self.url += self.category.url
+
+		self.url += self.slug
+
+		if settings.APPEND_SLASH:
+			self.url += '/'
+
 		super(Page, self).save(*args, **kwargs)
 
 	def __unicode__(self):
@@ -128,20 +135,3 @@ class Page(models.Model):
 		ordering = ['url']
 		verbose_name = _('Page')
 		verbose_name_plural = _('Pages')
-
-
-# class Template(BaseModel):
-# 	name = models.CharField(verbose_name=_('Name'), max_length=256)
-# 	html = models.TextField(verbose_name=_('HTML'), blank=True, null=True)
-# 	is_file = models.BooleanField(verbose_name=_('Main'))
-# 	# file_upload
-# 	# file_puth
-
-# 	public = models.BooleanField(verbose_name=_('Public'), default=True)
-# 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
-# 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
-
-# 	class Meta:
-# 		ordering = ['url']
-# 		verbose_name = _('Template')
-# 		verbose_name_plural = _('Templates')
