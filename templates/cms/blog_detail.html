@@ -5,7 +5,9 @@
 {% block content %}
 <div class="b-blog">
 	<h1 class='b-blog__title'>{% firstof seo.header header %}</h1>
-	{% if page.img %}<img src='{{ page.img.url }}' width='620'><br>{% endif %}
+	{% if page.img %}
+		<img src='{{ page.img.url }}' class='b-blog__img'>
+	{% endif %}
 	{% cms_render page.intro_text %}
 	<hr class='b-blog__more'>
 	{% cms_render page.text %}
