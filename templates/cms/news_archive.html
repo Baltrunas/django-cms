@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1 class='b-news-category__name'>
-		{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}
-	</h1>
+	<h1 class='b-news-category__name'>{% firstof seo.header header %}</h1>
 
 	<div class='b-news-category__description'>
 		{{ category.description|safe }}

@@ -4,7 +4,7 @@
 {% load cms_render %}
 
 {% block content %}
-	<h1 class='b-page__title'>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	<h1 class='b-page__title'>{% firstof seo.header header %}</h1>
 	{% cms_render page.text %}
 	<span class='b-page__views'>{% trans "Views" %}: {{page.views}}</span>
 {% endblock %}

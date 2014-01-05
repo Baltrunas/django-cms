@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	<h1>{% firstof seo.header header %}</h1>
 	{{ page.text|safe }}
 {% endblock %}

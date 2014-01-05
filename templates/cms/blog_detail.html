@@ -2,12 +2,12 @@
 
 {% load cms_render %}
 
-
-
 {% block content %}
-	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
-	{% cms_render page.intro_text %}
+<div class="b-blog">
+	<h1 class='b-blog__title'>{% firstof seo.header header %}</h1>
 	{% if page.img %}<img src='{{ page.img.url }}' width='620'><br>{% endif %}
-	<hr>
+	{% cms_render page.intro_text %}
+	<hr class='b-blog__more'>
 	{% cms_render page.text %}
+</div>
 {% endblock %}
