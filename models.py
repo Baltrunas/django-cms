@@ -108,7 +108,7 @@ class Page(models.Model):
 		self.url = '/'
 
 		if self.category:
-			self.url += self.category.url
+			self.url += self.category.url + '/'
 
 		self.url += self.slug
 
