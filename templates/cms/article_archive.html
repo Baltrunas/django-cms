@@ -2,6 +2,13 @@
 
 {% block content %}
 	<h1>{% firstof seo.header header %}</h1>
+
+	{% if category.description|safe %}
+		<div class='b-description m-cms_article'>
+			{{ category.description|safe }}
+		</div>
+	{% endif %}
+
 	<div class='b-article-list'>
 		{% for item in pages_list %}
 			<a class='b-article-list__link' href='{{ item.get_absolute_url }}'>{{ item.header }}</a><br>
