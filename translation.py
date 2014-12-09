@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 from modeltranslation.translator import translator, TranslationOptions
 
-from cms.models import Category
-from cms.models import Page
+from .models import Category
+from .models import Page
+
 
 class CategoryTranslationOptions(TranslationOptions):
 	fields = ['name', 'description']
