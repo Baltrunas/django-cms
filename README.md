@@ -1,3 +1,6 @@
+# !!! DEPRECATED !!!
+# Use django-pages
+
 # django-cms
 Pages and categories for django.
 
