@@ -83,7 +83,7 @@ class Page(models.Model):
 	img = models.FileField(verbose_name=_('Image'), upload_to='img/pages', blank=True)
 	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
 	views = models.PositiveIntegerField(verbose_name=_('Views'), editable=False, default=0)
-	main = models.BooleanField(verbose_name=_('Main'))
+	main = models.BooleanField(verbose_name=_('Main'), default=False)
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)

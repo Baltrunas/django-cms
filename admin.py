@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*
 from django.contrib import admin
 
-from cms.models import Category
-from cms.models import Page
+from .models import Category
+from .models import Page
 
 
 class CategoryAdmin(admin.ModelAdmin):

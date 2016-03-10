@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.core.paginator import Paginator
 
-from cms.models import Page
-from cms.models import Category
+from .models import Page
+from .models import Category
 
 
 def page(request, url):
